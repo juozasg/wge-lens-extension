@@ -1,4 +1,12 @@
 import { Renderer } from "@k8slens/extensions";
+import React from "react";
+
+import { DebugObjectMenuItem } from "./src/debug-object-menu-item";
+
+
+type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
+type Namespace = Renderer.K8sApi.Namespace;
+type KubeObject = Renderer.K8sApi.KubeObject;
 
 /**
  * 
@@ -16,7 +24,29 @@ export default class OciImageExtensionRenderer extends Renderer.LensExtension {
   /**
    * onActivate is called when your extension has been successfully enabled.
    */
- onActivate() {
-  console.log("rendered activated 2 WGE");
- }
+  onActivate() {
+    console.log("rendered activated WGE");
+  }
+
+  kubeObjectMenuItems = [
+    {
+      kind: "Pipeline",
+      apiVersions: ["pipelines.weave.works/v1alpha1"],
+      components: {
+        MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
+          <DebugObjectMenuItem {...props} />
+        ),
+      },
+    },
+    {
+      kind: "CronJob",
+      apiVersions: ["batch/v1"],
+      components: {
+        MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
+          <DebugObjectMenuItem {...props} />
+        ),
+      },
+    },
+  ];
+
 }
