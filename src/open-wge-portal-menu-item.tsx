@@ -1,4 +1,4 @@
-import { Renderer } from "@k8slens/extensions";
+import { Common, Renderer } from "@k8slens/extensions";
 import React from "react";
 
 const {
@@ -25,19 +25,26 @@ export function DebugObjectMenuItem(props: KubeObjectMenuProps<KubeObject>) {
 //     Navigation.hideDetails();
 //   };
 
-  const debug = () => {
+  const openWgePortal = () => {
     // sendToTerminal(`kubectl get pods -n ${namespaceName}`);
     console.log("debug menu item", props);
+    
+    const { object: pipeline } = props;
+    const portalUrl = 'https://mccp.howard.moomboo.space';
+    const query = `pipelines/details/status?kind=Pipeline&name=${pipeline.getName()}&namespace=${pipeline.getNs()}`;
+    const url = `${portalUrl}/${query}`;
+    console.log("opening url", url);
+    Common.Util.openExternal(url);
   };
 
   return (
-    <MenuItem onClick={debug}>
+    <MenuItem onClick={openWgePortal}>
       <Icon
-        material="speaker_group"
+        material="open_in_new"
         interactive={toolbar}
-        title="Debug"
+        title="Open in WGE Portal..."
       />
-      <span className="title">Debug Props</span>
+      <span className="title">Open in WGE Portal...</span>
     </MenuItem>
   );
 }

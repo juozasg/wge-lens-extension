@@ -1,11 +1,11 @@
 import { Renderer } from "@k8slens/extensions";
 import React from "react";
 
-import { DebugObjectMenuItem } from "./src/debug-object-menu-item";
+import { DebugObjectMenuItem } from "./src/open-wge-portal-menu-item";
 
 
 type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
-type Namespace = Renderer.K8sApi.Namespace;
+// type Namespace = Renderer.K8sApi.Namespace;
 type KubeObject = Renderer.K8sApi.KubeObject;
 
 /**
