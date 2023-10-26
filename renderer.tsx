@@ -1,20 +1,15 @@
 import { Renderer } from "@k8slens/extensions";
 import React from "react";
 
+
 import { OpenInWgeMenuItem } from "./src/open-wge-portal-menu-item";
+import { EmptyPreferenceHint, WgeUrlPreferenceInput } from "./src/wge-preferences";
+import { WgePreferencesStore } from "./src/wge-preferences-store";
 
 
 type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
 // type Namespace = Renderer.K8sApi.Namespace;
 type KubeObject = Renderer.K8sApi.KubeObject;
-
-// export function ExampleIcon() {
-//   return <Renderer.Component.Icon
-//     material="airport_shuttle"
-//     interactive={toolbar}
-//     title="Open in WGE Portal..."
-//   />
-// }
 
 
 /**
@@ -23,33 +18,26 @@ type KubeObject = Renderer.K8sApi.KubeObject;
  * View > Toggle Developer Tools > Console.
  * 
  */
-export default class OciImageExtensionRenderer extends Renderer.LensExtension {
-  /**
-   * onActivate is called when your extension has been successfully enabled.
-   */
+export default class WgeLensRenderer extends Renderer.LensExtension {
+
   onActivate() {
     console.log("wge-lens Rendered activated");
+    const prefStore = new WgePreferencesStore();
+    prefStore.loadExtension(this);
   }
 
-  // Examples nested page menus
-  // clusterPageMenus = [
-  //   {
-  //     target: { pageId: "hello" },
-  //     title: "Hello World Parent",
-  //     id: "hello-world-parent",
-  //     components: {
-  //       Icon: ExampleIcon,
-  //     }
-  //   },
-  //   {
-  //     target: { pageId: "hello" },
-  //     title: "Hello World Child",
-  //     parentId: "hello-world-parent",
-  //     components: {
-  //       Icon: ExampleIcon,
-  //     }
-  //   }
-  // ]
+  appPreferences = [
+    {
+      title: "Weave GitOps Enterprise Portal Base URL",
+      components: {
+        // Input: () => <WgeUrlPreferenceInput preference={this.urlPreference} />,
+        Input: () => <WgeUrlPreferenceInput />,
+        Hint: () => <EmptyPreferenceHint />,
+      },
+    },
+  ];
+  
+
 
   kubeObjectMenuItems = [
     {
@@ -91,3 +79,37 @@ export default class OciImageExtensionRenderer extends Renderer.LensExtension {
   ];
 
 }
+
+
+
+
+// function ExampleIcon() {
+//   return <Renderer.Component.Icon
+//     material="airport_shuttle"
+//     interactive={toolbar}
+//     title="Open in WGE Portal..."
+//   />
+// }
+
+// Examples nested page menus
+// clusterPageMenus = [
+//   {
+//     target: { pageId: "hello" },
+//     title: "Hello World Parent",
+//     id: "hello-world-parent",
+//     components: {
+//       Icon: ExampleIcon,
+//     }
+//   },
+//   {
+//     target: { pageId: "hello" },
+//     title: "Hello World Child",
+//     parentId: "hello-world-parent",
+//     components: {
+//       Icon: ExampleIcon,
+//     }
+//   }
+// ]
+
+
+  
