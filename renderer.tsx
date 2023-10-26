@@ -3,14 +3,12 @@ import React from "react";
 
 
 import { OpenInWgeMenuItem } from "./src/open-wge-portal-menu-item";
-import { EmptyPreferenceHint, WgeUrlPreferenceInput } from "./src/wge-preferences";
+import { EmptyPreferenceHint, WgeClusterNamePreferenceInput, WgeUrlPreferenceInput } from "./src/wge-preferences";
 import { WgePreferencesStore } from "./src/wge-preferences-store";
-
 
 type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
 // type Namespace = Renderer.K8sApi.Namespace;
 type KubeObject = Renderer.K8sApi.KubeObject;
-
 
 /**
  * 
@@ -19,25 +17,31 @@ type KubeObject = Renderer.K8sApi.KubeObject;
  * 
  */
 export default class WgeLensRenderer extends Renderer.LensExtension {
+  prefStore: WgePreferencesStore;
 
   onActivate() {
     console.log("wge-lens Rendered activated");
-    const prefStore = new WgePreferencesStore();
-    prefStore.loadExtension(this);
+    this.prefStore = new WgePreferencesStore();
+    this.prefStore.loadExtension(this);
   }
 
   appPreferences = [
     {
       title: "Weave GitOps Enterprise Portal Base URL",
       components: {
-        // Input: () => <WgeUrlPreferenceInput preference={this.urlPreference} />,
-        Input: () => <WgeUrlPreferenceInput />,
+        Input: () => <WgeUrlPreferenceInput store={this.prefStore} />,
+        Hint: () => <EmptyPreferenceHint />,
+      },
+    },
+    {
+      title: "Weave GitOps Enterprise Portal Cluster Name",
+      components: {
+        Input: () => <WgeClusterNamePreferenceInput store={this.prefStore} />,
         Hint: () => <EmptyPreferenceHint />,
       },
     },
   ];
   
-
 
   kubeObjectMenuItems = [
     {
@@ -45,7 +49,7 @@ export default class WgeLensRenderer extends Renderer.LensExtension {
       apiVersions: ["flagger.app/v1beta1"],
       components: {
         MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
-          <OpenInWgeMenuItem {...props} />
+          <OpenInWgeMenuItem {...{...this.prefStore, ...props }} />
         ),
       },
     },
@@ -54,7 +58,7 @@ export default class WgeLensRenderer extends Renderer.LensExtension {
       apiVersions: ["pipelines.weave.works/v1alpha1"],
       components: {
         MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
-          <OpenInWgeMenuItem {...props} />
+          <OpenInWgeMenuItem {...{...this.prefStore, ...props }} />
         ),
       },
     },
@@ -63,7 +67,7 @@ export default class WgeLensRenderer extends Renderer.LensExtension {
       apiVersions: ["templates.weave.works/v1alpha1"],
       components: {
         MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
-          <OpenInWgeMenuItem {...props} />
+          <OpenInWgeMenuItem {...{...this.prefStore, ...props }} />
         ),
       },
     },
@@ -72,7 +76,7 @@ export default class WgeLensRenderer extends Renderer.LensExtension {
       apiVersions: ["templates.weave.works/v1alpha2"],
       components: {
         MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
-          <OpenInWgeMenuItem {...props} />
+          <OpenInWgeMenuItem {...{...this.prefStore, ...props }} />
         ),
       },
     },

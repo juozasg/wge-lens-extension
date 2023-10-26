@@ -6,10 +6,12 @@ const {
 } = Renderer;
 
 type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
+type OpenInWgeProps = KubeObjectMenuProps<KubeObject> & { url: string, clusterName: string };
 type KubeObject = Renderer.K8sApi.KubeObject;
 
 
-export function OpenInWgeMenuItem(props: KubeObjectMenuProps<KubeObject>) {
+export function OpenInWgeMenuItem(props: OpenInWgeProps) {
+  // console.log("debug props", props);
   const portalQuery = (clusterName: string, object: KubeObject) => {
     switch(object.kind) {
     case "Canary":
@@ -25,12 +27,10 @@ export function OpenInWgeMenuItem(props: KubeObjectMenuProps<KubeObject>) {
   }
 
   const openWgePortal = () => {
-    // sendToTerminal(`kubectl get pods -n ${namespaceName}`);
-    console.log("debug menu item", props);
     
-    const { object: object } = props;
-    const portalUrl = "https://mccp.howard.moomboo.space";
-    const clusterName = "howard-moomboo-space";
+    const { object: object, url: portalUrl, clusterName: clusterName  } = props;
+    // const portalUrl = "https://mccp.howard.moomboo.space";
+    // const clusterName = "howard-moomboo-space";
     const query = portalQuery(clusterName, object);
     const url = `${portalUrl}/${query}`;
     console.log("opening url", url);

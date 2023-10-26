@@ -1,75 +1,65 @@
 import { Renderer } from "@k8slens/extensions";
-import { observable } from "mobx";
+import { makeObservable, observable } from "mobx";
 import { observer } from "mobx-react";
 import React from "react";
+import { WgePreferencesStore } from "./wge-preferences-store";
 
 const {
   Component: { Input },
 } = Renderer;
 
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-// type Props = {}
-
-
 @observer
-export class WgeUrlPreferenceInput extends React.Component {
+export class WgeUrlPreferenceInput extends React.Component<{store: WgePreferencesStore}> {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  // constructor(props: {} | Readonly<{}>) {
-  //   super(props);
-  //   makeObservable(this);
-  // }
-
-  @observable url = "https://mccp.howard.moomboo.space1";
+  constructor(props: {store: WgePreferencesStore}) {
+    super(props);
+    makeObservable(this);
+  }
+  @observable url = this.props.store.url;
   render() {
-    // const { preference } = this.props;
-    // const store = new WgePreferencesStore();
+
     return (
-      <>
-        <h5>Weave GitOps Enterprise Portal Base URL</h5>
-        <Input
-          dirty={true}
-          name={"WGE Portal URL"}
-          theme="round-black"
-          validators={[Renderer.Component.InputValidators.isUrl]}
-          value={this.url}
-          onChange={(v) => {
-            this.url = v;
-            // store.url = v;
-          }}
-        />
-      </>)
+      <Input
+        dirty={true}
+        name={"WGE Portal URL"}
+        theme="round-black"
+        validators={[Renderer.Component.InputValidators.isUrl]}
+        value={this.url}
+        onChange={(v) => {
+          this.url = v;
+          this.props.store.url = v;
+        }}
+      />
+    )
   }
 }
 
+@observer
+export class WgeClusterNamePreferenceInput extends React.Component<{store: WgePreferencesStore}> {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(props: {store: WgePreferencesStore}) {
+    super(props);
+    makeObservable(this);
+  }
+  @observable clusterName = this.props.store.clusterName;
+  render() {
+    return (
+      <Input
+        dirty={true}
+        name={"WGE Portal clusterName"}
+        theme="round-black"
+        validators={[Renderer.Component.InputValidators.isRequired]}
+        value={this.clusterName}
+        onChange={(v) => {
+          this.clusterName = v;
+          this.props.store.clusterName = v;
+        }}
+      />
+    )
+  }
+}
 
-// @observer
-// export class WgeClusterNamePreferenceInput extends React.Component<Props> {
-//   // eslint-disable-next-line @typescript-eslint/ban-types
-//   constructor(props: {} | Readonly<{}>) {
-//     super(props);
-//     makeObservable(this);
-//   }
-
-//   @observable clusterName = "https://mccp.howard.moomboo.space";
-//   render() {
-//     // const { preference } = this.props;
-//     return (
-//       <>
-//         <h5>Weave GitOps Enterprise Portal Base URL</h5>
-//         <Input
-//           dirty={true}
-//           name={"WGE Portal URL"}
-//           theme="round-black"
-//           validators={[Renderer.Component.InputValidators.isUrl]}
-//           value={this.url}
-//           onChange={(v) => {
-//             this.url = v;
-//           }}
-//         />
-//       </>)
-//   }
-// }
 
 
 
