@@ -2,36 +2,36 @@ import { Common, Renderer } from "@k8slens/extensions";
 import React from "react";
 
 const {
-  Component: { terminalStore, MenuItem, Icon },
-  Navigation,
+  Component: { MenuItem, Icon }, 
 } = Renderer;
 
 type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
-type Namespace = Renderer.K8sApi.Namespace;
 type KubeObject = Renderer.K8sApi.KubeObject;
 
 
-export function DebugObjectMenuItem(props: KubeObjectMenuProps<KubeObject>) {
-//   const { object: namespace, toolbar } = props;
-//   if (!namespace) return null;
-
-//   const namespaceName = namespace.getName();
-
-//   const sendToTerminal = (command: string) => {
-//     terminalStore.sendCommand(command, {
-//       enter: true,
-//       newTab: true,
-//     });
-//     Navigation.hideDetails();
-//   };
+export function OpenInWgeMenuItem(props: KubeObjectMenuProps<KubeObject>) {
+  const portalQuery = (clusterName: string, object: KubeObject) => {
+    switch(object.kind) {
+    case "Canary":
+      return `canary_details?clusterName=${clusterName}&name=${object.getName()}&namespace=${object.getNs()}`;
+    case "Pipeline":
+      return `pipelines/details/status?kind=Pipeline&name=${object.getName()}&namespace=${object.getNs()}`;
+    case "GitOpsSet":
+      return `gitopssets/object/details?clusterName=${clusterName}&name=${object.getName()}&namespace=${object.getNs()}`;
+    case "GitOpsTemplate":
+      return `templates/create?name=${object.getName()}&namespace=${object.getNs()}`;
+    }
+    return "";
+  }
 
   const openWgePortal = () => {
     // sendToTerminal(`kubectl get pods -n ${namespaceName}`);
     console.log("debug menu item", props);
     
-    const { object: pipeline } = props;
-    const portalUrl = 'https://mccp.howard.moomboo.space';
-    const query = `pipelines/details/status?kind=Pipeline&name=${pipeline.getName()}&namespace=${pipeline.getNs()}`;
+    const { object: object } = props;
+    const portalUrl = "https://mccp.howard.moomboo.space";
+    const clusterName = "howard-moomboo-space";
+    const query = portalQuery(clusterName, object);
     const url = `${portalUrl}/${query}`;
     console.log("opening url", url);
     Common.Util.openExternal(url);

@@ -1,7 +1,7 @@
 import { Renderer } from "@k8slens/extensions";
 import React from "react";
 
-import { DebugObjectMenuItem } from "./src/open-wge-portal-menu-item";
+import { OpenInWgeMenuItem } from "./src/open-wge-portal-menu-item";
 
 
 type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
@@ -25,25 +25,43 @@ export default class OciImageExtensionRenderer extends Renderer.LensExtension {
    * onActivate is called when your extension has been successfully enabled.
    */
   onActivate() {
-    console.log("rendered activated WGE");
+    console.log("wge-lens Rendered activated");
   }
 
   kubeObjectMenuItems = [
+    {
+      kind: "Canary",
+      apiVersions: ["flagger.app/v1beta1"],
+      components: {
+        MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
+          <OpenInWgeMenuItem {...props} />
+        ),
+      },
+    },
     {
       kind: "Pipeline",
       apiVersions: ["pipelines.weave.works/v1alpha1"],
       components: {
         MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
-          <DebugObjectMenuItem {...props} />
+          <OpenInWgeMenuItem {...props} />
         ),
       },
     },
     {
-      kind: "CronJob",
-      apiVersions: ["batch/v1"],
+      kind: "GitOpsSet",
+      apiVersions: ["templates.weave.works/v1alpha1"],
       components: {
         MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
-          <DebugObjectMenuItem {...props} />
+          <OpenInWgeMenuItem {...props} />
+        ),
+      },
+    },
+    {
+      kind: "GitOpsTemplate",
+      apiVersions: ["templates.weave.works/v1alpha2"],
+      components: {
+        MenuItem: (props: KubeObjectMenuProps<KubeObject>) => (
+          <OpenInWgeMenuItem {...props} />
         ),
       },
     },
