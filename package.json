@@ -1,6 +1,6 @@
 {
-	"name": "@weaveworks/wge-lens",
-	"version": "0.0.6",
+	"name": "wge-lens",
+	"version": "0.0.7",
 	"description": "Weave GitOps Enterprise Integration for Lens",
 	"publisher": "Juozas Gaigalas",
 	"author": "Juozas Gaigalas",

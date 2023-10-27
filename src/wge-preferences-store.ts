@@ -8,8 +8,8 @@ export type WgePreferencesStoreModel = {
 }
 
 export class WgePreferencesStore extends Store.ExtensionStore<WgePreferencesStoreModel>{
-    @observable url = "https://mccp.howard.moomboo.space";
-    @observable clusterName = "howard-moomboo-space";
+    @observable url = "https://mccp.example.com";
+    @observable clusterName = "example-wge-cluster";
 
     constructor() {
       super({
