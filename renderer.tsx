@@ -3,7 +3,7 @@ import React from "react";
 
 
 import { OpenInWgeMenuItem } from "./src/open-wge-portal-menu-item";
-import { EmptyPreferenceHint, WgeClusterNamePreferenceInput, WgeUrlPreferenceInput } from "./src/wge-preferences";
+import { WgeUrlPreferenceInput } from "./src/wge-preferences";
 import { WgePreferencesStore } from "./src/wge-preferences-store";
 
 type KubeObjectMenuProps<T> = Renderer.Component.KubeObjectMenuProps<T>;
@@ -27,19 +27,12 @@ export default class WgeLensRenderer extends Renderer.LensExtension {
 
   appPreferences = [
     {
-      title: "Weave GitOps Enterprise Portal Base URL",
+      title: "Weave GitOps Enterprise Portal Settings",
       components: {
         Input: () => <WgeUrlPreferenceInput store={this.prefStore} />,
-        Hint: () => <EmptyPreferenceHint />,
+        Hint: () => <></>,
       },
-    },
-    {
-      title: "Weave GitOps Enterprise Portal Cluster Name",
-      components: {
-        Input: () => <WgeClusterNamePreferenceInput store={this.prefStore} />,
-        Hint: () => <EmptyPreferenceHint />,
-      },
-    },
+    }
   ];
   
 

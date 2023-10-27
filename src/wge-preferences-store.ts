@@ -15,8 +15,8 @@ export class WgePreferencesStore extends Store.ExtensionStore<WgePreferencesStor
       super({
         configName: "wge-lens-preference-store",
         defaults: {
-          url: "",
-          clusterName: "",
+          url: "https://mccp.example.com",
+          clusterName: "example-wge-cluster",
         }
       });
       makeObservable(this);
