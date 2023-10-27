@@ -12,9 +12,11 @@ Adds a menu item to open WGE portal for Canary, Pipeline, GitOpsTemplate and Git
 
 Install using Lens **Extensions** page and a `.tgz` url:
 
-https://github.com/juozasg/wge-lens-extension/files/13188919/wge-lens.tgz
+https://github.com/juozasg/wge-lens-extension/releases/download/v0.0.8/wge-lens.tgz
 
 https://docs.k8slens.dev/extensions/lens-extensions/#install-extensions
+
+All releases: https://github.com/juozasg/wge-lens-extension/releases
 
 
 ### Configuration
