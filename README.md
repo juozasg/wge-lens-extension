@@ -19,7 +19,7 @@ https://docs.k8slens.dev/extensions/lens-extensions/#install-extensions
 
 ### Configuration
 
-Configure WGE Portal base URL and WGE management cluster name in Lens **Settings...* page.
+Configure WGE Portal base URL and WGE management cluster name in Lens **Settings...** page.
 
 
 ### Usage
